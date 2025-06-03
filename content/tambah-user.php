@@ -17,15 +17,21 @@ if(isset($_POST['name'])){
     $name = $_POST['name'];
     $email = $_POST['email'];
     $password = sha1($_POST['password']);
-    $id_user - isset($_GET['edit']) ? $_GET['edit'] : '';
+    $id_user = isset($_GET['edit']) ? $_GET['edit'] : '';
 
     if(!isset($_GET['edit'])){
         $insert = mysqli_query($config, "INSERT INTO users (name, email, password) VALUES ('$name','$email','$password')");
         header("location:?page=user&tambah=berhasil");
     }else{
-        $update - mysqli_query($config, "UPDATE users SET name='$name', email='$email', password='$password' WHERE id='$id_user'");
+        $update = mysqli_query($config, "UPDATE users SET name='$name', email='$email', password='$password' WHERE id='$id_user'");
         header("location:?page=user&ubah=berhasil");
     }
+}
+
+if(isset($_GET['edit'])){
+    $id_user = isset($_GET['edit']) ? $_GET['edit'] : '';
+    $queryEdit = mysqli_query($config, "SELECT * FROM users WHERE id= $id_user");
+    $rowEdit= mysqli_fetch_assoc($queryEdit);
 }
 ?>
 
@@ -38,15 +44,15 @@ if(isset($_POST['name'])){
                 <form action="" method="post">
                     <div class="mb-3">
                         <label for="">Nama *</label>
-                        <input type="text" class="form-control" name="name" placeholder="Masukkan Nama" required>
+                        <input type="text" class="form-control" name="name" placeholder="Masukkan Nama" required value="<?= isset($rowEdit['name'])? $rowEdit['name'] : '' ?>">
                     </div>
                     <div class="mb-3">
                         <label for="">Email *</label>
-                        <input type="text" class="form-control" name="email" placeholder="Masukkan Email" required>
+                        <input type="text" class="form-control" name="email" placeholder="Masukkan Email" required value="<?= isset($rowEdit['email'])? $rowEdit['email'] : '' ?>">
                     </div>
                     <div class="mb-3">
                         <label for="">Password *</label>
-                        <input type="text" class="form-control" name="password" placeholder="Masukkan Password" required>
+                        <input type="password" class="form-control" name="password" placeholder="Masukkan Password" required>
                     </div>
                     <div class="mb-3">
                         <input type="submit" class="btn btn-success" name="save" value="save">

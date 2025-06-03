@@ -2,8 +2,8 @@
 
 // jika pakai soft delete (delete yang tidak sepenuhnya menghapus) pakainya bukan DELETE, melainkan UPDATE
 if(isset($_GET['delete'])){
-    $id_user = $_GET['delete'];
-    $queryDelete = mysqli_query($config, "UPDATE users SET deleted_at = 1 WHERE id = '$id_user'");
+    $id_inst = $_GET['delete'];
+    $queryDelete = mysqli_query($config, "DELETE FROM instructors WHERE id='$id_inst'");
     if($queryDelete){
         header("location:?page=user&hapus=berhasil");
     }else{
@@ -15,12 +15,15 @@ if(isset($_POST['name'])){
     // mengecek ada tidak sebuah parameter bernama edit, kalo ada jalankan perintah edit/update
     // kalo tidak ada jalankan perintah data baru / insert
     $name = $_POST['name'];
+    $gender = $_POST['gender'];
+    $education = $_POST['education'];
+    $phone = $_POST['phone'];
     $email = $_POST['email'];
-    $password = sha1($_POST['password']);
-    $id_user = isset($_GET['edit']) ? $_GET['edit'] : '';
+    $address = $_POST['address'];
+    $id_inst = isset($_GET['edit']) ? $_GET['edit'] : '';
 
     if(!isset($_GET['edit'])){
-        $insert = mysqli_query($config, "INSERT INTO users (name, email, password) VALUES ('$name','$email','$password')");
+        $insert = mysqli_query($config, "INSERT INTO users (name, gender, education, phone, email, address) VALUES ('$name','$gender','$education','$phone','$email','$address')");
         header("location:?page=user&tambah=berhasil");
     }else{
         print_r($_POST);

@@ -22,6 +22,7 @@ $rowInst = mysqli_fetch_all($queryInst, MYSQLI_ASSOC);
                                 <th>Jenis Kelamin</th>
                                 <th>Pendidikan</th>
                                 <th>No Telp</th>
+                                <th>Email</th>
                                 <th>Alamat</th>
                                 <th></th>
                             </tr>
