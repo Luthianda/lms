@@ -39,6 +39,7 @@ $rowInst = mysqli_fetch_all($queryInst, MYSQLI_ASSOC);
                                         <td><?= $data['email'] ?></td>
                                         <td><?= $data['address'] ?></td>
                                         <td>
+                                            <a href="?page=tambah-instructor-major&id=<?php echo $data['id'] ?>" class="btn btn-info btn-sm">Add Jurusan</a>
                                             <a href="?page=tambah-instructor&edit=<?php echo $data['id'] ?>" class="btn btn-warning btn-sm">Edit</a>
                                             <a onclick="return confirm('Are you sure??')"
                                                 href="?page=tambah-instructor&delete=<?php echo $data['id'] ?>" class="btn btn-danger btn-sm">Delete</a>
