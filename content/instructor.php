@@ -10,11 +10,11 @@ $rowInst = mysqli_fetch_all($queryInst, MYSQLI_ASSOC);
             <div class="card-body">
                 <h5 class="card-title">Data Instruktur</h5>
                 <div class="mb-3" align="right">
-                    <a href="?page=tambah-user" class="btn btn-primary">Add Instructor</a>
+                    <a href="?page=tambah-instructor" class="btn btn-primary">Add Instructor</a>
                 </div>
 
                 <div class="table-responsive">
-                    <table class="table table-bordered">
+                    <table class="table table-bordered datatable">
                         <thead>
                             <tr>
                                 <th>No</th>
@@ -33,15 +33,15 @@ $rowInst = mysqli_fetch_all($queryInst, MYSQLI_ASSOC);
                                     <tr>
                                         <td><?= $key + 1 ?></td>
                                         <td><?= $data['name'] ?></td>
-                                        <td><?= $data['gender'] ?></td>
+                                        <td><?= $data['gender'] == 0 ? 'Pria' : 'Wanita' ?></td>
                                         <td><?= $data['education'] ?></td>
                                         <td><?= $data['phone'] ?></td>
                                         <td><?= $data['email'] ?></td>
                                         <td><?= $data['address'] ?></td>
                                         <td>
-                                            <a href="?page=tambah-user&edit=<?php echo $data['id'] ?>" class="btn btn-warning btn-sm">Edit</a>
+                                            <a href="?page=tambah-instructor&edit=<?php echo $data['id'] ?>" class="btn btn-warning btn-sm">Edit</a>
                                             <a onclick="return confirm('Are you sure??')"
-                                                href="?page=tambah-user&delete=<?php echo $data['id'] ?>" class="btn btn-danger btn-sm">Delete</a>
+                                                href="?page=tambah-instructor&delete=<?php echo $data['id'] ?>" class="btn btn-danger btn-sm">Delete</a>
                                         </td>
                                     </tr>
                             <?php endforeach ?>

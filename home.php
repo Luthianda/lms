@@ -42,6 +42,15 @@ ob_start();
   * Author: BootstrapMade.com
   * License: https://bootstrapmade.com/license/
   ======================================================== -->
+
+  <!-- Template Summernote -->
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.js"></script>
+
+<!-- Template Data Tables -->
+   <!-- <link rel="stylesheet" href="https://cdn.datatables.net/2.3.1/css/dataTables.dataTables.css" />
+    <script src="https://cdn.datatables.net/2.3.1/js/dataTables.js"></script> -->
 </head>
 
 <body>
@@ -111,6 +120,24 @@ ob_start();
   <!-- Template Main JS File -->
   <script src="assets/js/main.js"></script>
 
+  <script>
+      $('#summernote').summernote({
+        placeholder: 'Masukkan kata-kata disini',
+        tabsize: 2,
+        height: 120,
+        toolbar: [
+          ['style', ['style']],
+          ['font', ['bold', 'underline', 'clear']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['table', ['table']],
+          ['insert', ['link', 'picture', 'video']],
+          ['view', ['fullscreen', 'codeview', 'help']]
+        ]
+      });
+
+      // $('#table').DataTable();
+    </script>
 </body>
 
 </html>

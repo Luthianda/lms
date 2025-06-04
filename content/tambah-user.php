@@ -11,13 +11,18 @@ if(isset($_GET['delete'])){
     }
 }
 
+$id_user = isset($_GET['edit']) ? $_GET['edit'] : '';
+$queryEdit = mysqli_query($config, "SELECT * FROM users WHERE id= '$id_user'");
+$rowEdit= mysqli_fetch_assoc($queryEdit);
+// print_r($rowEdit);
+// die;
+
 if(isset($_POST['name'])){
     // mengecek ada tidak sebuah parameter bernama edit, kalo ada jalankan perintah edit/update
     // kalo tidak ada jalankan perintah data baru / insert
     $name = $_POST['name'];
     $email = $_POST['email'];
-    $password = sha1($_POST['password']);
-    $id_user = isset($_GET['edit']) ? $_GET['edit'] : '';
+    $password = isset($_POST['password']) ? sha1($_POST['password']) : $rowEdit['password'];
 
     if(!isset($_GET['edit'])){
         $insert = mysqli_query($config, "INSERT INTO users (name, email, password) VALUES ('$name','$email','$password')");
@@ -28,18 +33,13 @@ if(isset($_POST['name'])){
     }
 }
 
-if(isset($_GET['edit'])){
-    $id_user = isset($_GET['edit']) ? $_GET['edit'] : '';
-    $queryEdit = mysqli_query($config, "SELECT * FROM users WHERE id= $id_user");
-    $rowEdit= mysqli_fetch_assoc($queryEdit);
-}
 ?>
 
 <div class="row">
     <div class="col-sm-12">
         <div class="card">
             <div class="card-body">
-                <h5 class="card-title">Add User</h5>
+                <h5 class="card-title"><?php echo isset($_GET['edit']) ? 'Edit' : 'Add' ?> User</h5>
 
                 <form action="" method="post">
                     <div class="mb-3">
@@ -52,7 +52,8 @@ if(isset($_GET['edit'])){
                     </div>
                     <div class="mb-3">
                         <label for="">Password *</label>
-                        <input type="password" class="form-control" name="password" placeholder="Masukkan Password" required>
+                        <input type="password" class="form-control" name="password" placeholder="Masukkan Password" <?php echo empty($id_user) ? 'required' : '' ?>>
+                        <small>*jika ingin diubah, silahkan diisi</small>
                     </div>
                     <div class="mb-3">
                         <input type="submit" class="btn btn-success" name="save" value="save">
