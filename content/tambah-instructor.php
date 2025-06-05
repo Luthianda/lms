@@ -23,13 +23,14 @@ if(isset($_POST['name'])){
     $education = $_POST['education'];
     $phone = $_POST['phone'];
     $email = $_POST['email'];
+    $password = isset($_POST['password']) ? sha1($_POST['password']) : $rowEdit['password'];
     $address = $_POST['address'];
 
     if(!isset($_GET['edit'])){
-        $insert = mysqli_query($config, "INSERT INTO instructors (name, gender, education, phone, email, address) VALUES ('$name','$gender','$education','$phone','$email','$address')");
+        $insert = mysqli_query($config, "INSERT INTO instructors (name, gender, education, phone, email, password, address) VALUES ('$name','$gender','$education','$phone','$email','$password', '$address')");
         header("location:?page=instructor&tambah=berhasil");
     }else{
-        $update = mysqli_query($config, "UPDATE instructors SET name='$name', gender='$gender', education='$education', phone='$phone', email='$email', address='$address' WHERE id='$id_inst'");
+        $update = mysqli_query($config, "UPDATE instructors SET name='$name', gender='$gender', education='$education', phone='$phone', email='$email', password='$password', address='$address' WHERE id='$id_inst'");
         header("location:?page=instructor&ubah=berhasil");
     }
 }
@@ -68,6 +69,11 @@ if(isset($_POST['name'])){
                     <div class="mb-3">
                         <label for="">Email *</label>
                         <input type="text" class="form-control" name="email" placeholder="Masukkan Email" required value="<?= isset($rowEdit['email'])? $rowEdit['email'] : '' ?>">
+                    </div>
+                    <div class="mb-3">
+                        <label for="">Password *</label>
+                        <input type="password" class="form-control" name="password" placeholder="Masukkan Password" <?php echo empty($_GET['edit']) ? 'required' : '' ?>>
+                        <small>*jika ingin diubah, silahkan diisi</small>
                     </div>
                     <div class="mb-3">
                         <label for="">Alamat *</label>

@@ -5,15 +5,23 @@
  if(isset($_POST['email'])){
     $email = $_POST['email'];
     $password = sha1($_POST['password']);
+    $role = $_POST['role'];
 
     // tampilkan semua data dari table users dimana email diambil dari orang yang input email 
     // dan password di ambil dari orang yang input password
-    $queryLogin = mysqli_query($config, "SELECT * FROM users WHERE email= '$email' AND password= '$password'");
+    // Jika login dengan instruktur (value = 1) 
+
+    if($role == 1){
+      $queryLogin = mysqli_query($config, "SELECT * FROM instructors WHERE email= '$email' AND password= '$password'");
+    }else{
+      $queryLogin = mysqli_query($config, "SELECT * FROM users WHERE email= '$email' AND password= '$password'");
+    }
+    
     // jika data ditemukan, mysqli_num_rows("hasil query")
     if(mysqli_num_rows($queryLogin) > 0){
         // header("location:namafile.php"): meredirect /  melempar ke halaman lain yang dituju
         $rowLogin = mysqli_fetch_assoc($queryLogin);
-        $_SESSION['ID USER'] = $rowLogin['id'];
+        $_SESSION['ID_USER'] = $rowLogin['id'];
         $_SESSION['NAME'] = $rowLogin['name'];
 
         header("location:home.php");
@@ -93,7 +101,7 @@
                   <form method="post" class="row g-3 needs-validation" novalidate>
 
                     <div class="col-12">
-                      <label for="yourUsername" class="form-label">Email</label>
+                      <label for="yourUsername" class="form-label">Email *</label>
                       <div class="input-group has-validation">
                         <span class="input-group-text" id="inputGroupPrepend">@</span>
                         <input type="email" name="email" class="form-control" id="yourUsername" required>
@@ -102,9 +110,20 @@
                     </div>
 
                     <div class="col-12">
-                      <label for="yourPassword" class="form-label">Password</label>
+                      <label for="yourPassword" class="form-label">Password *</label>
                       <input type="password" name="password" class="form-control" id="yourPassword" required>
                       <div class="invalid-feedback">Masukkan password</div>
+                    </div>
+
+                    <div class="col-12">
+                      <label for="yourPassword" class="form-label">Role *</label>
+                      <select name="role" class="form-control" id="yourRole" required>
+                        <option value="">--Pilih Role--</option>
+                        <option value="1">Instruktur</option>
+                        <option value="2">Siswa</option>
+                        <option value="3">Lainnya</option>
+                      </select>
+                      <div class="invalid-feedback">Pilih Role Terlebih Dahulu!</div>
                     </div>
 
                     <div class="col-12">
