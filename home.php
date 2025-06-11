@@ -1,5 +1,6 @@
 <?php 
 include 'config/koneksi.php';
+include 'setting-role.php';
 session_start();
 ob_start();
 ?>

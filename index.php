@@ -11,9 +11,10 @@
     // dan password di ambil dari orang yang input password
     // Jika login dengan instruktur (value = 1) 
 
-    if($role == 1){
+    if($role == 9){
       $queryLogin = mysqli_query($config, "SELECT * FROM instructors WHERE email= '$email' AND password= '$password'");
-    }elseif($role == 2){
+      
+    }elseif($role == 8){
       $queryLogin = mysqli_query($config, "SELECT * FROM students WHERE email= '$email' AND password= '$password'");
     }else{
       $queryLogin = mysqli_query($config, "SELECT * FROM users WHERE email= '$email' AND password= '$password'");
@@ -32,6 +33,9 @@
         header("location:index.php?login=error");
     }
  }
+
+ $queryRoles = mysqli_query($config, "SELECT * FROM roles WHERE name IN ('Instruktur','Siswa') ORDER BY id DESC");
+ $rowRoles = mysqli_fetch_all($queryRoles, MYSQLI_ASSOC)
 
 ?>
 
@@ -122,9 +126,13 @@
                       <label for="yourPassword" class="form-label">Role *</label>
                       <select name="role" class="form-control" id="yourRole" required>
                         <option value="">--Pilih Role--</option>
-                        <option value="1">Instruktur</option>
+                          <?php foreach($rowRoles as $role): ?>
+                            <option value="<?= $role['id'] ?>"><?= $role['name'] ?></option>
+                          <?php endforeach ?>
+                        <option value="100">Lainnya</option>
+                        <!-- <option value="1">Instruktur</option>
                         <option value="2">Siswa</option>
-                        <option value="3">Lainnya</option>
+                        <option value="3">Lainnya</option> -->
                       </select>
                       <div class="invalid-feedback">Pilih Role Terlebih Dahulu!</div>
                     </div>
