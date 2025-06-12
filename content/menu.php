@@ -1,6 +1,6 @@
 <?php
 include 'config/koneksi.php';
-$queryMenu = mysqli_query($config, "SELECT * FROM menus ORDER BY id DESC");
+$queryMenu = mysqli_query($config, "SELECT * FROM menus ORDER BY id ASC");
 $rowMenu = mysqli_fetch_all($queryMenu, MYSQLI_ASSOC);
 ?>
 

@@ -31,6 +31,44 @@ if(isset($_POST['name'])){
     }
 }
 
+if(isset($_GET['add-role-menu'])){
+    $id_role = $_GET['add-role-menu'];
+
+    $rowEditRoleMenu = [];
+    $editRoleMenu = mysqli_query($config, "SELECT * FROM menu_roles WHERE id_role= '$id_role'");
+    // $rowEditRoleMenu = mysqli_fetch_all($editRoleMenu, MYSQLI_ASSOC);
+    while($editMenu = mysqli_fetch_assoc($editRoleMenu)){
+        $rowEditRoleMenu[] = $editMenu['id_menu'];
+    }
+
+    $menus = mysqli_query($config, "SELECT * FROM menus ORDER BY parent_id, urutan");
+
+    $rowMenu = [];
+    while($m = mysqli_fetch_assoc($menus)){
+        $rowMenu[] = $m;
+    };
+    
+}
+
+if(isset($_POST['save'])){
+    $id_role = $_GET['add-role-menu'];
+    $id_menus = $_POST['id_menus'] ?? [];
+//     if($_POST['id_menus']){
+//         $id_menus = $_POST['id_menus'];
+//     }else{
+//         $id_menus = [];
+//     } (kepanjangan maksud dari isi $id_menus)
+
+    mysqli_query($config, "DELETE FROM menu_roles WHERE id_role ='$id_role'" );
+    foreach($id_menus as $m){
+        $id_menu = $m;
+        mysqli_query($config, "INSERT INTO menu_roles (id_role, id_menu) VALUE ('$id_role','$id_menu') ");
+    }
+        header("location:?page=tambah-role&add-role-menu" . $id_role . "&tambah=berhasil");
+}
+
+
+
 ?>
 
 <div class="row">
@@ -38,17 +76,49 @@ if(isset($_POST['name'])){
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title"><?php echo isset($_GET['edit']) ? 'Edit' : 'Add' ?> Role</h5>
-
-                <form action="" method="post">
-                    <div class="mb-3">
-                        <label for="">Role *</label>
-                        <input type="text" class="form-control" name="name" placeholder="Masukkan Role" required value="<?= isset($rowEdit['name'])? $rowEdit['name'] : '' ?>">
-                    </div>
-                    </div>
-                    <div class="mb-3">
-                        <input type="submit" class="btn btn-success" name="save" value="save">
-                    </div>
-                </form>
+                <?php if(isset($_GET['add-role-menu'])): ?>
+                    <form action="" method="post">
+                        <div class="mb-3">
+                            <ul>
+                                <?php foreach($rowMenu as $mainMenu): ?>
+                                    <?php if($mainMenu['parent_id'] == 0 OR $mainMenu['parent_id'] == ""): ?>
+                                    <li>
+                                        <label for="">
+                                            <!-- jika id value id_menu dari table menu nilainya 1 
+                                             == jika nilai id_menu dari table menu nilainya sama dengan 1  -->
+                                            <input <?= in_array($mainMenu['id'], $rowEditRoleMenu) ? 'checked' : '' ?> type="checkbox" name="id_menus[]" value="<?= $mainMenu['id'] ?>"><?= $mainMenu['name'] ?>
+                                        </label>
+                                        <ul>
+                                            <?php foreach($rowMenu as $subMenu): ?>
+                                                <?php if($subMenu['parent_id'] ==  $mainMenu['id']): ?>
+                                            <li>
+                                                <label for="">
+                                                    <input <?= in_array($subMenu['id'], $rowEditRoleMenu) ? 'checked' : '' ?> type="checkbox" name="id_menus[]" value="<?= $subMenu['id'] ?>"><?= $subMenu['name'] ?>
+                                                </label>
+                                            </li>
+                                                <?php endif ?>
+                                            <?php endforeach ?>
+                                        </ul>
+                                    </li>
+                                    <?php endif ?>
+                                <?php endforeach ?>
+                            </ul>
+                        </div>
+                        <div class="mb-3">
+                            <button type="submit" class="btn btn-primary" name="save">Simpan Perubahan</button>
+                        </div>
+                    </form>
+                <?php elseif(isset($_GET['edit'])): ?>
+                    <form action="" method="post">
+                        <div class="mb-3">
+                            <label for="">Role *</label>
+                            <input type="text" class="form-control" name="name" placeholder="Masukkan Role" required value="<?= isset($rowEdit['name'])? $rowEdit['name'] : '' ?>">
+                        </div>
+                        <div class="mb-3">
+                            <input type="submit" class="btn btn-success" name="save" value="save">
+                        </div>
+                    </form>
+                <?php endif ?>
             </div>
         </div>
     </div>

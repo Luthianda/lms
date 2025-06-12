@@ -129,7 +129,7 @@
                           <?php foreach($rowRoles as $role): ?>
                             <option value="<?= $role['id'] ?>"><?= $role['name'] ?></option>
                           <?php endforeach ?>
-                        <option value="100">Lainnya</option>
+                        <option value="0">Lainnya</option>
                         <!-- <option value="1">Instruktur</option>
                         <option value="2">Siswa</option>
                         <option value="3">Lainnya</option> -->
